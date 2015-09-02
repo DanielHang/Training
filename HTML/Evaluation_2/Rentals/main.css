@@ -1,0 +1,30 @@
+﻿body {
+    background-image: url("http://m.rgbimg.com/cache1toeMq/users/x/xy/xymonau/600/nM2WmzM.jpg");
+    background-repeat: repeat;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+body > img {
+	display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+a:hover {
+	color: red;
+}
+
+* {
+	font-family: Verdana;
+}
+
+table {
+	width:100%;
+	border: 0.1em solid grey;
+}
+
+ul {
+	list-style-type: none;
+}
