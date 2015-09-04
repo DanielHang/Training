@@ -1,0 +1,85 @@
+﻿/* CSSsource code */
+html {
+  max-width: 1200px; /*Limit max width*/
+  margin: 0 auto; /*Top and Bottom zero, sides equal*/
+  background: #d3d3d3; /*Fills the entire page*/
+  position: relative; /* Fix for absolute positioning */
+  background-image: url("http://m.rgbimg.com/cache1toeMq/users/x/xy/xymonau/600/nM2WmzM.jpg");  /*Set background image*/
+  background-repeat: repeat; /*Tile Background image*/
+}
+
+/*Banner Image*/
+#banner {
+    left: 0px; /*Left Edge at 0px form border*/
+    right: 0px; /*Right Edge at 0px form border*/
+    width: 100%; /*Width 100% of parent container*/
+}
+
+/*Link hover*/
+#mail_to:hover {
+	color: black; /*Remove blue link and make black*/
+}
+
+/*Set Global font-family and font color*/
+* {
+	font-family: Verdana; /*Global Font Family*/
+	color: #505050 ;  /*Global Font= Light GREY*/
+}
+
+/*DVD Rental Items Title*/
+h2 {
+	padding: 1%; /*Move away from Image edge*/
+}
+
+/*Main page welcome header*/
+#welcome {
+	text-align: center; /*Center the text in parent div*/
+}
+
+/*Main page welcome message div*/
+.welcome_intro {
+	background: white; /*white color over the grey parent container*/
+	margin: 1%; /*Margine from edge of parent container to create uniform outside border edging*/
+	padding: 1%; /*Pad from edge of parent container to create internal boundry spacing*/
+}
+
+/*Welcome message and DVD Item description*/
+p {
+	padding: 1%; /*Move away from Image edge*/
+}
+
+/*Flex-box grid for DVD Items*/
+.grid {
+	display: -webkit-flex; /*flexbox - enable*/
+	display: flex; /*flexbox - enable*/
+	background: white; /*Set flexbox background to white*/
+	margin: 1%; /*Keep flexbox edges away from parent container to make grey border*/
+	padding: 1%; /*Keep internal content away form border*/
+}
+
+/*Contain all containers flex-box containers*/
+.col {
+	background: #d3d3d3; /*Set background to grey*/
+	padding: 0.5% 0% 0.5% 0%; /*Pad the top and bottom to edges*/
+}
+
+/*Flex-box grid for Menu Items*/
+.menu_row {
+	display: -webkit-flex; /*flexbox - enable*/
+	display: flex; /*flexbox - enable*/
+	margin: 0.5%;
+}
+
+.category_container {
+	/*border: solid green 1px; *//*TEST  DIV OUTLINE*/
+	background: white; /*Set flexbox background to white*/
+	left:0; /*Strech to right*/
+	right: 0; /*Strech to left*/
+	height: 100px; /*Set button height*/
+	width: 600px; /*Set button max width*/
+	margin: 0.25% 0.5%; /*Top and Bottom zero, sides equal*/
+    text-decoration: none; /*No underline or blue link*/
+	display: -webkit-flex; /*flexbox - enable*/
+	display: flex; /*flexbox - enable*/
+	text-align: center; /*Center the text in parent div*/
+}
