@@ -1,0 +1,29 @@
+[
+  {
+    "Category":"Action",
+    "Title":"Taken",
+    "Description":"A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.",
+    "Image":"http://ia.media-imdb.com/images/M/MV5BMTM4NzQ0OTYyOF5BMl5BanBnXkFtZTcwMDkyNjQyMg@@._V1_SX214_AL_.jpg",
+    "Director":"Pierre Morel",
+    "Stars":"Liam Neeson, Maggie Grace, Famke Janssen",
+    "AgeRestriction":"PG-13"
+  },
+  {
+    "Category":"Action",
+    "Title":"Terminator",
+    "Description":"A human-looking indestructible cyborg is sent from 2029 to 1984 to assassinate a waitress, whose unborn son will lead humanity in a war against the machines, while a soldier from that war is sent to protect her at all costs.",
+    "Image":"http://ia.media-imdb.com/images/M/MV5BODE1MDczNTUxOV5BMl5BanBnXkFtZTcwMTA0NDQyNA@@._V1_SX214_AL_.jpg",
+    "Director":"James Cameron",
+    "Stars":"Arnold Schwarzenegger, Linda Hamilton, Michael Biehn ",
+    "AgeRestriction":"R"
+  },
+  {
+    "Category":"Action",
+    "Title":"Die Hard",
+    "Description":"John McClane, officer of the NYPD, tries to save wife Holly Gennaro and several others, taken hostage by German terrorist Hans Gruber during a Christmas party at the Nakatomi Plaza in Los Angeles.",
+    "Image":"http://ia.media-imdb.com/images/M/MV5BMTY4ODM0OTc2M15BMl5BanBnXkFtZTcwNzE0MTk3OA@@._V1_SX214_AL_.jpg",
+    "Director":"John McTiernan",
+    "Stars":"Bruce Willis, Alan Rickman, Bonnie Bedelia",
+    "AgeRestriction":"R"
+  }
+]
