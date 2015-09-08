@@ -1,76 +1,75 @@
 // JavaScript source code
 $(document).ready(function(){
-	// Main menu Buttons color change
-	$('.category_container').mouseover(function () {
-		$(this).css("background-color", "#d3d3d3");
-		$(this).css("color", "#ffffff");
-	});
 
-	$('.category_container').mouseout(function () {
-		$(this).css("background-color", "#ffffff");
-		$(this).css("color", "#505050");
-	});
-
-
-	// Link Click to URLs
-	$('#catergory_action').click(function () {
-		window.location = 'action.html';
-	});
-
-	$('#catergory_animation').click(function () {
-		window.location = 'animation.html';
-	});
-
-	$('#catergory_comedy').click(function () {
-		window.location = 'comedy.html';
-	});
-
-	$('#catergory_thriller').click(function () {
-		window.location = 'thriller.html';
-	});
-
-	$('#catergory_drama').click(function () {
-		window.location = 'drama.html';
-	});
-
-	$('#catergory_horror').click(function () {
-		window.location = 'horror.html';
-	});
-
-
+	imgGrowing = false; // Image is busy Growing flag
+	imgShrinking = false; // Image is busy Shrinking flag
 
 	// Grow images
-	$('#item_image_grow').is(':hidden') &&	$('.item_image').mouseover(function () {
-		var pos = $(this).position(); // returns an object with the attribute top and left
-		var html_width = $(document).width();
-		if (html_width > 1200) { //take max body size into consideration
-			pos.left = pos.left - ((html_width - 1200)/ 2);
+	$('.item-image').mouseover(function () {  //Mouseo has entered the regular image
+		console.log("###  mouseOVER  ###");
+		if (!imgGrowing) { //If image is not currently growning DO:
+			imgGrowing = true; //Set CURRENTLY growing flag
+			var $this = $(this);
+			var $itemImageGrow = $("#item-image-grow");
+			$itemImageGrow.animate().stop(); //Stop currently running image animations
+			$itemImageGrow.hide(); //Hide currently running grown images
+			var originalHeight = $this.height(); //Get original Image height
+			var originalWidth = $this.width(); //Get original Image width
+			var pos = $this.offset(); // returns an object with the attribute top and left		
+			var imgTop = pos.top - (originalHeight * 0.05); // top offset position by 5%
+			var imgLeft = pos.left - (originalWidth * 0.05); // left offset position by 5%*/
+			var imgWidth = originalWidth * 1.1; // 10% increase in height
+			var imgHeight = originalHeight * 1.1; // 10% increase in width
+			var imgSrc = $this.attr("src"); // Get image url
+			//Set positioning values for new image
+			$itemImageGrow.attr("src", imgSrc);
+			$itemImageGrow.css("width", originalWidth);
+			$itemImageGrow.css("height", originalHeight);
+			$itemImageGrow.css(pos);
+			$itemImageGrow.show();
+			$itemImageGrow.animate({ left: imgLeft, top: imgTop, width: imgWidth, height: imgHeight }, 500);
+			$itemImageGrow.promise().done(function () {
+				imgGrowing = false;
+			});
 		}
-		
-		var img_height = 317; // 10% increase in height
-		var img_width = 214; // 10% increase in width
-		pos.top = pos.top - (img_height * 0.05); // top offset position by 5%
-		pos.left = pos.left - (img_width * 0.05); // left offset position by 5%
-		img_height = img_height * 1.1; // 10% increase in height
-		img_width = img_width * 1.1; // 10% increase in width
-		var img_src = $(this).attr("src"); // Get image url
-		
-		//Set positioning values for new image
-		$("#item_image_grow").attr("src", img_src);
-		$("#item_image_grow").css("top", pos.top);
-		$("#item_image_grow").css("left", pos.left);
-		$("#item_image_grow").css("height", img_height);
-		$("#item_image_grow").css("width", img_width);
-		$("#item_image_grow").show();
+		else {
+			console.log("***ALREADY GROWNING***");
+		}
+		console.log("GROW   : imgGrowing: " + imgGrowing + ", imgShrinking: " + imgShrinking);
 	});
-
 
 	// close streched image
-	$('#item_image_grow').mouseout(function () {
-		$("#item_image_grow").hide();
+	$('#item-image-grow').mouseout(function () {  //mouse has exited streched image
+		console.log("###  mouseOUT  R###");
+		if (imgGrowing) //If image is still growing DO:
+		{
+			$(this).hide(); //Hide currently running grown images
+			$(this).animate().stop(); //Stop currently running image animations
+			imgShrinking = false; //Remove Image shrinking flag
+			console.log("***  CURRENTLY GROWNING - FAST SHRINK ***");
+		}
+		else if (imgShrinking) {
+			console.log("***  ALREADY SHRINKING - FAST SHRINK ***");
+			$(this).hide(); //Hide currently running grown images
+			$(this).animate().stop(); //Stop currently running image animations
+			imgShrinking = false; //Remove Image shrinking flag
+		}
+		else if (!imgShrinking) {
+			imgShrinking = true; //Set Image shrinking flag
+			var $this = $(this);
+			var pos = $this.offset(); // returns an object with the attribute top and left		
+			var imgWidth = $this.width() / 1.1; // 10% decrease in height
+			var imgHeight = $this.height() / 1.1; // 10% decrease in width
+			var imgTop = pos.top + (imgHeight * 0.05); // top offset position by 5%
+			var imgLeft = pos.left + (imgWidth * 0.05); // left offset position by 5%
+			$this.animate({ left: imgLeft, top: imgTop, width: imgWidth, height: imgHeight }, 500);
+			$this.promise().done(function () {
+				$this.hide(); //Hide currently running grown images
+				imgShrinking = false; //Remove Image shrinking flag
+			});
+		}
+		console.log("SHRINK : imgGrowing: " + imgGrowing + ", imgShrinking: " + imgShrinking);
 	});
-	
-
 
 	//Test JSON file read
 	var JSON;
@@ -86,59 +85,59 @@ $(document).ready(function(){
 
 	// Clear more info box
 	function clearMoreInfo() {
-		$("#moreinfo_container").hide();
-		$('#moreinfo_container').empty();
-		$("#background_moreinfo").hide();
-		$('#background_moreinfo').empty();
+		$("#moreinfo-container").hide();
+		$('#moreinfo-container').empty();
+		$("#background-moreinfo").hide();
+		$('#background-moreinfo').empty();
 	}
 	
 	// Taken more Info add
-	$('#Taken_info').click(function () {
+	$('#Taken-info').click(function () {
 		var e = e || window.event;
 		clearMoreInfo();
-		$('#moreinfo_container').css({ 'top': e.pageY+50 });
+		$('#moreinfo-container').css({ 'top': e.pageY+50 });
 		var dvd_info = getDVDs("Taken");
-		$("#background_moreinfo").show();
-		$("#moreinfo_container").fadeIn("slow");
-		$("#moreinfo_container").append("Director: " + dvd_info["0"].Director);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Stars: " + dvd_info["0"].Stars);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
+		$("#background-moreinfo").show();
+		$("#moreinfo-container").fadeIn("slow");
+		$("#moreinfo-container").append("Director: " + dvd_info["0"].Director);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Stars: " + dvd_info["0"].Stars);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
 	});
 
 	// Terminator more Info add
-	$('#Terminator_info').click(function () {
+	$('#Terminator-info').click(function () {
 		var e = e || window.event;
 		clearMoreInfo();
-		$('#moreinfo_container').css({ 'top': e.pageY + 50 });
+		$('#moreinfo-container').css({ 'top': e.pageY + 50 });
 		var dvd_info = getDVDs("Terminator");
-		$("#background_moreinfo").show();
-		$("#moreinfo_container").fadeIn("slow");
-		$("#moreinfo_container").append("Director: " + dvd_info["0"].Director);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Stars: " + dvd_info["0"].Stars);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
+		$("#background-moreinfo").show();
+		$("#moreinfo-container").fadeIn("slow");
+		$("#moreinfo-container").append("Director: " + dvd_info["0"].Director);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Stars: " + dvd_info["0"].Stars);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
 	});
 
 	// DieHard more Info add
-	$('#Die_Hard_info').click(function () {
+	$('#DieHard-info').click(function () {
 		var e = e || window.event;
 		clearMoreInfo();
-		$('#moreinfo_container').css({ 'top': e.pageY + 50 });
+		$('#moreinfo-container').css({ 'top': e.pageY + 50 });
 		var dvd_info = getDVDs("Die Hard"); 
-		$("#background_moreinfo").show();
-		$("#moreinfo_container").fadeIn("slow");
-		$("#moreinfo_container").append("Director: " + dvd_info["0"].Director);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Stars: " + dvd_info["0"].Stars);
-		$("#moreinfo_container").append("<Br/>");
-		$("#moreinfo_container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
+		$("#background-moreinfo").show();
+		$("#moreinfo-container").fadeIn("slow");
+		$("#moreinfo-container").append("Director: " + dvd_info["0"].Director);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Stars: " + dvd_info["0"].Stars);
+		$("#moreinfo-container").append("<Br/>");
+		$("#moreinfo-container").append("Age Restriction: " + dvd_info["0"].AgeRestriction);
 	});
 
 	// More Info remove
-	$('#background_moreinfo').click(function () {
+	$('#background-moreinfo').click(function () {
 		clearMoreInfo();
 	});
 });

@@ -1,11 +1,15 @@
 ﻿/* CSSsource code */
-html {
-  max-width: 1200px; /*Limit max width*/
+body {
   margin: 0 auto; /*Top and Bottom zero, sides equal*/
   background: #d3d3d3; /*Fills the entire page*/
   position: relative; /* Fix for absolute positioning */
   background-image: url("http://m.rgbimg.com/cache1toeMq/users/x/xy/xymonau/600/nM2WmzM.jpg");  /*Set background image*/
   background-repeat: repeat; /*Tile Background image*/
+}
+
+.content {
+  max-width: 1200px; /*Limit max width*/
+  margin: 0 auto;
 }
 
 /*Banner Image*/
@@ -16,7 +20,7 @@ html {
 }
 
 /*Link hover*/
-#mail_to:hover {
+#mail-to:hover {
 	color: black; /*Remove blue link and make black*/
 }
 
@@ -25,6 +29,11 @@ html {
 	font-family: Verdana; /*Global Font Family*/
 	color: #505050 ;  /*Global Font= Light GREY*/
 }
+
+.menu-row > a {
+	text-decoration: none;
+}
+
 
 /*DVD Rental Items Title*/
 h2 {
@@ -37,7 +46,7 @@ h2 {
 }
 
 /*Main page welcome message div*/
-.welcome_intro {
+.welcome-intro {
 	background: white; /*white color over the grey parent container*/
 	margin: 1%; /*Margine from edge of parent container to create uniform outside border edging*/
 	padding: 1%; /*Pad from edge of parent container to create internal boundry spacing*/
@@ -48,17 +57,17 @@ p {
 	padding: 1%; /*Move away from Image edge*/
 }
 
-.item_image {
+.item-image {
 	height: 317;
 	width: 214;
 }
 
-#item_image_grow {
-	z-plain: 10;
+#item-image-grow {
+	z-index: 999;
 	position: absolute;
 	display: none;  /*Starts off hidden*/
-	padding: 0%;
-	margin: 0%;
+	padding: 0;
+	margin: 0;
 }
 
 
@@ -77,14 +86,29 @@ p {
 	padding: 0.5% 0% 0.5% 0%; /*Pad the top and bottom to edges*/
 }
 
-/*Flex-box grid for Menu Items*/
-.menu_row {
-	display: -webkit-flex; /*flexbox - enable*/
-	display: flex; /*flexbox - enable*/
-	margin: 0.5%;
+.menu {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	flex-grow: 1;
 }
 
-.category_container {
+.menu-col {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	
+}
+
+/*Flex-box grid for Menu Items*/
+.menu-row {
+	background: #fff;
+	margin: 2%;
+	padding: 2%;
+}
+
+.category-container {
 	/*border: solid green 1px; *//*TEST  DIV OUTLINE*/
 	background: white; /*Set flexbox background to white*/
 	left:0; /*Strech to right*/
@@ -100,7 +124,7 @@ p {
 
 
 /*Popup container for more info on DVDs*/
-#moreinfo_container {
+#moreinfo-container {
 	background: white;
 	border: 10px solid #d3d3d3;
 	position: absolute;
@@ -115,7 +139,7 @@ p {
 
 
 /*Popup container for more info on DVDs*/
-#background_moreinfo {
+#background-moreinfo {
 	background: d3d3d3;
 	position: absolute;
 	z-index: 8;  /*On top pf other content*/
