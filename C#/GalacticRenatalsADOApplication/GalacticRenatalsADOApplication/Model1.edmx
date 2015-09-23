@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GalacticRentalsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Charges">
+          <Key>
+            <PropertyRef Name="chargeId" />
+          </Key>
+          <Property Name="chargeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientId" Type="int" Nullable="false" />
+          <Property Name="chargeType" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="chargeDate" Type="datetime" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="clientId" />
+          </Key>
+          <Property Name="clientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="addressLine1" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="addressLine2" Type="nvarchar" MaxLength="50" />
+          <Property Name="addressCity" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="addressPostCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="image" />
+          <Property Name="active" Type="bit" />
+          <Property Name="title" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="DVDItem">
+          <Key>
+            <PropertyRef Name="dvdItemId" />
+          </Key>
+          <Property Name="dvdItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="movie" Type="int" Nullable="false" />
+          <Property Name="media" Type="nvarchar" MaxLength="50" />
+          <Property Name="serial" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="movieId" />
+          </Key>
+          <Property Name="movieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
+          <Property Name="image" Type="image" />
+          <Property Name="stars" Type="nvarchar" MaxLength="50" />
+          <Property Name="ageRestriction" Type="nvarchar" MaxLength="50" />
+          <Property Name="director" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Rentals">
+          <Key>
+            <PropertyRef Name="rentalId" />
+          </Key>
+          <Property Name="clientId" Type="int" Nullable="false" />
+          <Property Name="dvdItemId" Type="int" Nullable="false" />
+          <Property Name="rentalDate" Type="datetime" Nullable="false" />
+          <Property Name="expectedReturnDate" Type="datetime" Nullable="false" />
+          <Property Name="actualRetunDate" Type="datetime" />
+          <Property Name="rentalId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Charges_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="Charges" Type="Self.Charges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="clientId" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="clientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DVDItem_Movie">
+          <End Role="Movie" Type="Self.Movie" Multiplicity="1" />
+          <End Role="DVDItem" Type="Self.DVDItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="movieId" />
+            </Principal>
+            <Dependent Role="DVDItem">
+              <PropertyRef Name="movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rentals_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="clientId" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="clientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rentals_DVDItem">
+          <End Role="DVDItem" Type="Self.DVDItem" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DVDItem">
+              <PropertyRef Name="dvdItemId" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="dvdItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GalacticRentalsModelStoreContainer">
+          <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DVDItem" EntityType="Self.DVDItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="Self.Movie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rentals" EntityType="Self.Rentals" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Charges_Clients" Association="Self.FK_Charges_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DVDItem_Movie" Association="Self.FK_DVDItem_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="DVDItem" EntitySet="DVDItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rentals_Clients" Association="Self.FK_Rentals_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rentals_DVDItem" Association="Self.FK_Rentals_DVDItem">
+            <End Role="DVDItem" EntitySet="DVDItem" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GalacticRentalsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Charge">
+          <Key>
+            <PropertyRef Name="chargeId" />
+          </Key>
+          <Property Name="chargeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientId" Type="Int32" Nullable="false" />
+          <Property Name="chargeType" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="chargeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="amount" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Charges_Clients" FromRole="Charges" ToRole="Clients" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="clientId" />
+          </Key>
+          <Property Name="clientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="addressLine1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addressLine2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="addressCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addressPostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="title" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Charges" Relationship="Self.FK_Charges_Clients" FromRole="Clients" ToRole="Charges" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK_Rentals_Clients" FromRole="Clients" ToRole="Rentals" />
+        </EntityType>
+        <EntityType Name="DVDItem">
+          <Key>
+            <PropertyRef Name="dvdItemId" />
+          </Key>
+          <Property Name="dvdItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="movie" Type="Int32" Nullable="false" />
+          <Property Name="media" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="serial" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Movie1" Relationship="Self.FK_DVDItem_Movie" FromRole="DVDItem" ToRole="Movie" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK_Rentals_DVDItem" FromRole="DVDItem" ToRole="Rentals" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="movieId" />
+          </Key>
+          <Property Name="movieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="stars" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ageRestriction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="director" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DVDItems" Relationship="Self.FK_DVDItem_Movie" FromRole="Movie" ToRole="DVDItem" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="rentalId" />
+          </Key>
+          <Property Name="clientId" Type="Int32" Nullable="false" />
+          <Property Name="dvdItemId" Type="Int32" Nullable="false" />
+          <Property Name="rentalDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="expectedReturnDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="actualRetunDate" Type="DateTime" Precision="3" />
+          <Property Name="rentalId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Rentals_Clients" FromRole="Rentals" ToRole="Clients" />
+          <NavigationProperty Name="DVDItem" Relationship="Self.FK_Rentals_DVDItem" FromRole="Rentals" ToRole="DVDItem" />
+        </EntityType>
+        <Association Name="FK_Charges_Clients">
+          <End Role="Clients" Type="Self.Client" Multiplicity="1" />
+          <End Role="Charges" Type="Self.Charge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="clientId" />
+            </Principal>
+            <Dependent Role="Charges">
+              <PropertyRef Name="clientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rentals_Clients">
+          <End Role="Clients" Type="Self.Client" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="clientId" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="clientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DVDItem_Movie">
+          <End Role="Movie" Type="Self.Movie" Multiplicity="1" />
+          <End Role="DVDItem" Type="Self.DVDItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="movieId" />
+            </Principal>
+            <Dependent Role="DVDItem">
+              <PropertyRef Name="movie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rentals_DVDItem">
+          <End Role="DVDItem" Type="Self.DVDItem" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DVDItem">
+              <PropertyRef Name="dvdItemId" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="dvdItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GalacticRentalsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Charges" EntityType="Self.Charge" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="DVDItems" EntityType="Self.DVDItem" />
+          <EntitySet Name="Movies" EntityType="Self.Movie" />
+          <EntitySet Name="Rentals" EntityType="Self.Rental" />
+          <AssociationSet Name="FK_Charges_Clients" Association="Self.FK_Charges_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Charges" EntitySet="Charges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rentals_Clients" Association="Self.FK_Rentals_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DVDItem_Movie" Association="Self.FK_DVDItem_Movie">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="DVDItem" EntitySet="DVDItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rentals_DVDItem" Association="Self.FK_Rentals_DVDItem">
+            <End Role="DVDItem" EntitySet="DVDItems" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GalacticRentalsModelStoreContainer" CdmEntityContainer="GalacticRentalsEntities">
+          <EntitySetMapping Name="Charges">
+            <EntityTypeMapping TypeName="GalacticRentalsModel.Charge">
+              <MappingFragment StoreEntitySet="Charges">
+                <ScalarProperty Name="chargeId" ColumnName="chargeId" />
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
+                <ScalarProperty Name="chargeType" ColumnName="chargeType" />
+                <ScalarProperty Name="chargeDate" ColumnName="chargeDate" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="GalacticRentalsModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
+                <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
+                <ScalarProperty Name="addressCity" ColumnName="addressCity" />
+                <ScalarProperty Name="addressPostCode" ColumnName="addressPostCode" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DVDItems">
+            <EntityTypeMapping TypeName="GalacticRentalsModel.DVDItem">
+              <MappingFragment StoreEntitySet="DVDItem">
+                <ScalarProperty Name="dvdItemId" ColumnName="dvdItemId" />
+                <ScalarProperty Name="movie" ColumnName="movie" />
+                <ScalarProperty Name="media" ColumnName="media" />
+                <ScalarProperty Name="serial" ColumnName="serial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="GalacticRentalsModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="movieId" ColumnName="movieId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="stars" ColumnName="stars" />
+                <ScalarProperty Name="ageRestriction" ColumnName="ageRestriction" />
+                <ScalarProperty Name="director" ColumnName="director" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rentals">
+            <EntityTypeMapping TypeName="GalacticRentalsModel.Rental">
+              <MappingFragment StoreEntitySet="Rentals">
+                <ScalarProperty Name="clientId" ColumnName="clientId" />
+                <ScalarProperty Name="dvdItemId" ColumnName="dvdItemId" />
+                <ScalarProperty Name="rentalDate" ColumnName="rentalDate" />
+                <ScalarProperty Name="expectedReturnDate" ColumnName="expectedReturnDate" />
+                <ScalarProperty Name="actualRetunDate" ColumnName="actualRetunDate" />
+                <ScalarProperty Name="rentalId" ColumnName="rentalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

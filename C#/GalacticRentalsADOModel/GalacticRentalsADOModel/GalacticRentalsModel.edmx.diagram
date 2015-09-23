@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ce312a0f328d419ab30810fd6c1b2d4c" Name="Diagram1">
+        <EntityTypeShape EntityType="GalacticRentalsModel.Charge" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GalacticRentalsModel.Client" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="GalacticRentalsModel.DVDItem" Width="1.5" PointX="3.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GalacticRentalsModel.Movie" Width="1.5" PointX="1.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GalacticRentalsModel.Rental" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="GalacticRentalsModel.FK_Charges_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="GalacticRentalsModel.FK_Rentals_Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="GalacticRentalsModel.FK_DVDItem_Movie" ManuallyRouted="false" />
+        <AssociationConnector Association="GalacticRentalsModel.FK_Rentals_DVDItem" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
