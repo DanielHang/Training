@@ -31,6 +31,7 @@ namespace foreachsringApplication
 			foreach (string name in names)
 			{
 				Console.WriteLine("Number: {0} Name: {1}", names.GetEnumerator(), name);
+
 			}
 		}
 	}
