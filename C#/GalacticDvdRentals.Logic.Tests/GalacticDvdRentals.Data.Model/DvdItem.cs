@@ -1,37 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace GalacticDvdRentals.Data.Model
 {
-	public class DvdItem
-	{
-		public int DvdItemId { get; set; }
-		public int MovieId { get; set; }
-		public int Price { get; set; }
-		public int Serial { get; set; }
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-		public DvdItem()
-		{
-			Price = 250;
-		}
+    [Table("DVDItem")]
+    public partial class DvdItem
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DvdItem()
+        {
+            Rentals = new HashSet<Rental>();
+        }
+
+		public int dvdItemId { get; set; }
+
+        public int movieId { get; set; }
+
+        [StringLength(50)]
+        public string media { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        public string serial { get; set; }
+
+        public int price { get; set; }
+
+        public virtual Movie Movie { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rental> Rentals { get; set; }
 
 		public override bool Equals(object obj)
 		{
-			if (obj == null)
+			var dvd = obj as DvdItem;
+			if (dvd == null)
 				return false;
-
-			if (!(obj is DvdItem))
-				return false;
-
-			var eq = (DvdItem)obj;
-			return DvdItemId.Equals(eq.DvdItemId);
+			return dvdItemId == dvd.dvdItemId && movieId == dvd.movieId && media == dvd.media && serial == dvd.serial && price == dvd.price;
 		}
 
 		public override int GetHashCode()
 		{
-			return DvdItemId.GetHashCode();
+			return dvdItemId.GetHashCode();
 		}
-	}
+
+    }
 }

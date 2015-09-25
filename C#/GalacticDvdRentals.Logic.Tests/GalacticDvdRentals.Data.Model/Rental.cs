@@ -1,34 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace GalacticDvdRentals.Data.Model
 {
-	public class Rental
-	{
-		public int RentalId { get; set; }
-		public int DvdItemId { get; set; }
-		public int ClientId { get; set; }
-		public DateTime RentalDate { get; set; }
-		public DateTime ExpectedReturnDate { get; set; }
-		public DateTime? ReturnDate { get; set; }
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Rental
+    {
+        public int clientId { get; set; }
+
+        public int dvdItemId { get; set; }
+
+        public DateTime rentalDate { get; set; }
+
+        public DateTime expectedReturnDate { get; set; }
+
+        public DateTime? actualReturnDate { get; set; }
+
+        public int rentalId { get; set; }
+
+        public virtual Client Client { get; set; }
+
+        public virtual DvdItem DVDItem { get; set; }
 
 		public override bool Equals(object obj)
 		{
-			if (obj == null)
+			var r = obj as Rental;
+			if (r == null)
 				return false;
-
-			if (!(obj is Rental))
-				return false;
-
-			var eq = (Rental)obj;
-			return RentalId.Equals(eq.RentalId);
+			return rentalId == r.rentalId && clientId == r.clientId && dvdItemId == r.dvdItemId && rentalDate == r.rentalDate && expectedReturnDate == r.expectedReturnDate && actualReturnDate == r.actualReturnDate; 
 		}
 
 		public override int GetHashCode()
 		{
-			return RentalId.GetHashCode();
+			return rentalId.GetHashCode();
 		}
-	}
+    }
 }

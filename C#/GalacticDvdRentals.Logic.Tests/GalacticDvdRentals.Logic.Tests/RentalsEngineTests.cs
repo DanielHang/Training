@@ -126,7 +126,9 @@ namespace GalacticDvdRentals.Logic.Tests
 		{
 			//arrange
 			const string testSeachString = "Bcert";
-			var availableSearchableMovies = CreateSearchableMovieList(MovieTitle6);
+			var availableSearchableMovies = new List<Movie>();
+			availableSearchableMovies.Add(new Movie { movieId = 6, title = MovieTitle6, description = null, image = null, stars = null, ageRestriction = null, director = null });
+			
 			var actualSearchableMovies = CreateSearchableMovieList(MovieTitle1, MovieTitle2, MovieTitle3, MovieTitle4, MovieTitle5, MovieTitle6, MovieTitle7, MovieTitle8, MovieTitle9, MovieTitle10);
 
 			var searchableMovieRepository = new Mock<IMovieRepository>();
@@ -168,7 +170,9 @@ namespace GalacticDvdRentals.Logic.Tests
 		{
 			//arrange
 			const string testSeachString = "Abc";
-			var availableSearchableMovies = CreateSearchableMovieList(MovieTitle1, MovieTitle2);
+			var availableSearchableMovies = new List<Movie>() ;
+			availableSearchableMovies.Add(new Movie { movieId = 4, title = MovieTitle4, description = null, image = null, stars = null, ageRestriction = null, director = null });
+			availableSearchableMovies.Add(new Movie { movieId = 6, title = MovieTitle6, description = null, image = null, stars = null, ageRestriction = null, director = null });
 			var actualSearchableMovies = CreateSearchableMovieList(MovieTitle1, MovieTitle2, MovieTitle3, MovieTitle4, MovieTitle5, MovieTitle6, MovieTitle7, MovieTitle8, MovieTitle9, MovieTitle10);
 
 			var searchableMovieRepository = new Mock<IMovieRepository>();
@@ -304,7 +308,7 @@ namespace GalacticDvdRentals.Logic.Tests
 
 			var actualMovieList = new List<Movie>();
 			var expectedDvdItemList = new List<DvdItem>();
-			expectedDvdItemList.Add(new DvdItem { DvdItemId = 1, MovieId = 1, Price = 1500 });
+			expectedDvdItemList.Add(new DvdItem { dvdItemId = 1, movieId = 1, media = null, serial = "1", price = 1500 });
 
 			var MovieRepository = new Mock<IMovieRepository>();
 			var DvdItemRepository = new Mock<IDvdItemRepository>();
@@ -334,8 +338,8 @@ namespace GalacticDvdRentals.Logic.Tests
 			var actualRentalList = CreateRentalListForIsMovieAvailable();
 			var actualMovieList = new List<Movie>();
 			var expectedDvdItemList = new List<DvdItem>();
-			expectedDvdItemList.Add(new DvdItem { DvdItemId = 2, MovieId = 2, Price = 1500 });
-			expectedDvdItemList.Add(new DvdItem { DvdItemId = 4, MovieId = 2, Price = 1500 });
+			expectedDvdItemList.Add(new DvdItem { dvdItemId = 2, movieId = 2, media = null, serial = "2", price = 1500 });
+			expectedDvdItemList.Add(new DvdItem { dvdItemId = 4, movieId = 2, media = null, serial = "4", price = 1500 });
 			var MovieRepository = new Mock<IMovieRepository>();
 			var DvdItemRepository = new Mock<IDvdItemRepository>();
 			var RentalRepository = new Mock<IRentalRepository>();
@@ -364,7 +368,7 @@ namespace GalacticDvdRentals.Logic.Tests
 			var actualRentalList = CreateRentalListForIsMovieAvailable();
 			var actualMovieList = new List<Movie>();
 			var expectedDvdItemList = new List<DvdItem>();
-			expectedDvdItemList.Add(new DvdItem { DvdItemId = 7, MovieId = 6, Price = 1500 });
+			expectedDvdItemList.Add(new DvdItem { dvdItemId = 7, movieId = 6, media = null, serial = "7", price = 1500 });
 			var MovieRepository = new Mock<IMovieRepository>();
 			var DvdItemRepository = new Mock<IDvdItemRepository>();
 			var RentalRepository = new Mock<IRentalRepository>();
@@ -481,11 +485,11 @@ namespace GalacticDvdRentals.Logic.Tests
 		}
 
 		[TestMethod]
-		public void GetRantalFeeReturnsSetFeeforNotSetItemPrice()
+		public void GetRantalFeeReturnsZeroforNotSetItemPrice()
 		{
 			//arrange
 			const int testDvdItemId = 2;
-			const int testFee = 250;
+			const int testFee = 0;
 			var actualDvdItems = CreateDvdList();
 
 			var DvdItemRepository = new Mock<IDvdItemRepository>();
@@ -497,7 +501,7 @@ namespace GalacticDvdRentals.Logic.Tests
 
 			//assert
 			Assert.IsNotNull(returnedRentalFee, "Returned Rental Fee is null");
-			Assert.AreEqual(returnedRentalFee, testFee, "Returned Rental Fee does not Equal actual Rental Fee");
+			Assert.AreEqual(testFee, returnedRentalFee, "Returned Rental Fee does not Equal actual Rental Fee");
 		}
 
 		[TestMethod]
@@ -588,7 +592,7 @@ namespace GalacticDvdRentals.Logic.Tests
 			const int testDvdItemId = 1;
 			var actualRentalList = CreateRentalList();
 			var actualDvdItemList = CreateDvdItemList();
-			var expectedRental = new Rental { RentalId = 11, DvdItemId = testDvdItemId, ClientId = testClientId, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00), ExpectedReturnDate = new DateTime(2015, 09, 17, 11, 00, 00) };
+			var expectedRental = new Rental { rentalId = 11, dvdItemId = testDvdItemId, clientId = testClientId, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 17, 11, 00, 00) };
 			var actualRentalReturned = new Rental();
 		
 			var RentalRepository = new Mock<IRentalRepository>();
@@ -603,7 +607,7 @@ namespace GalacticDvdRentals.Logic.Tests
 			//assert
 			Assert.IsNotNull(returnedRentalCheckout, "Returned Checkout is null");
 			Assert.IsTrue(returnedRentalCheckout, "Returned Checkout is not false");
-			RentalRepository.Verify(x => x.Add(It.Is<Rental>(r => r.ClientId ==1 && r.DvdItemId == 1)));
+			RentalRepository.Verify(x => x.Add(It.Is<Rental>(r => r.clientId ==1 && r.dvdItemId == 1)));
 		}
 
 		[TestMethod]
@@ -632,7 +636,7 @@ namespace GalacticDvdRentals.Logic.Tests
 		public void ReturnRentalReturnsFalseReturnNotRented()
 		{
 			//arrange
-			const int testSerial = 72376;
+			const string testSerial = "72376";
 			var actualRentalList = CreateRentalList();
 			var actualDvdItemsList = CreateDvdList();
 
@@ -654,7 +658,7 @@ namespace GalacticDvdRentals.Logic.Tests
 		public void ReturnRentalReturnsFalseReturnNeverRented()
 		{
 			//arrange
-			const int testSerial = 45636;
+			const string testSerial = "45636";
 			var actualRentalList = CreateRentalList();
 			var actualDvdItemsList = CreateDvdList();
 
@@ -676,7 +680,7 @@ namespace GalacticDvdRentals.Logic.Tests
 		public void ReturnRentalReturnsTrue()
 		{
 			//arrange
-			const int testSerial = 64356;
+			const string testSerial = "64356";
 			var actualRentalList = CreateRentalList();
 			var actualDvdItemsList = CreateDvdList();
 
@@ -692,18 +696,18 @@ namespace GalacticDvdRentals.Logic.Tests
 			//assert
 			Assert.IsNotNull(ReturnRentalResponse, "Returned ReturnedRental is null");
 			Assert.IsTrue(ReturnRentalResponse, "Returned ReturnedRental is not True");
-			RentalRepository.Verify(x => x.Modify(It.Is<Rental>(r => r.ClientId == 5)));
+			RentalRepository.Verify(x => x.Modify(It.Is<Rental>(r => r.clientId == 5)));
 		}
 
 		private List<Rental> CreateRentalListForIsMovieAvailable()
 		{
 			var rentals = new List<Rental>();
 
-			rentals.Add(new Rental { RentalId = 1, DvdItemId = 1, ClientId = 1, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00), ReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
-			rentals.Add(new Rental { RentalId = 2, DvdItemId = 1, ClientId = 2, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00), ReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
-			rentals.Add(new Rental { RentalId = 3, DvdItemId = 2, ClientId = 3, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00), ReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
-			rentals.Add(new Rental { RentalId = 4, DvdItemId = 3, ClientId = 4, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00)});
-			rentals.Add(new Rental { RentalId = 5, DvdItemId = 4, ClientId = 5, RentalDate = new DateTime(2015, 09, 16, 14, 00, 00), ReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
+			rentals.Add(new Rental { rentalId = 1, dvdItemId = 1, clientId = 1, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), actualReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
+			rentals.Add(new Rental { rentalId = 2, dvdItemId = 1, clientId = 2, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), actualReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
+			rentals.Add(new Rental { rentalId = 3, dvdItemId = 2, clientId = 3, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), actualReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
+			rentals.Add(new Rental { rentalId = 4, dvdItemId = 3, clientId = 4, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00)});
+			rentals.Add(new Rental { rentalId = 5, dvdItemId = 4, clientId = 5, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), actualReturnDate = new DateTime(2015, 09, 18, 11, 00, 00) });
 			return rentals;
 		}
 
@@ -711,13 +715,13 @@ namespace GalacticDvdRentals.Logic.Tests
 		{
 			var dvdItem = new List<DvdItem>();
 
-			dvdItem.Add(new DvdItem { DvdItemId = 1, MovieId = 1, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 2, MovieId = 2, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 3, MovieId = 2, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 4, MovieId = 2, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 5, MovieId = 4, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 6, MovieId = 5, Price = 1500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 7, MovieId = 6, Price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 1, movieId = 1, media = null, serial = "1", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 2, movieId = 2, media = null, serial = "2", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 3, movieId = 2, media = null, serial = "3", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 4, movieId = 2, media = null, serial = "4", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 5, movieId = 4, media = null, serial = "5", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 6, movieId = 5, media = null, serial = "6", price = 1500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 7, movieId = 6, media = null, serial = "7", price = 1500 });
 
 			return dvdItem;
 		}
@@ -725,33 +729,33 @@ namespace GalacticDvdRentals.Logic.Tests
 		private List<Rental> CreateRentalList()
 		{
 			var rentals = new List<Rental>();
-			rentals.Add(new Rental { RentalId = 1, DvdItemId = 53, ClientId = 1,  RentalDate = new DateTime(2015,09,16,14,00,00), ExpectedReturnDate = new DateTime(2015,09,23,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 2, DvdItemId = 23, ClientId = 3,  RentalDate = new DateTime(2015,09,15,10,00,00), ExpectedReturnDate = new DateTime(2015,09,22,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 3, DvdItemId = 6,  ClientId = 42, RentalDate = new DateTime(2015,09,4,13,00,00), ExpectedReturnDate = new DateTime(2015,09,21,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 4, DvdItemId = 83, ClientId = 4,  RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 5, DvdItemId = 9,  ClientId = 24, RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 6, DvdItemId = 72, ClientId = 4,  RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 7, DvdItemId = 34, ClientId = 25, RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 8, DvdItemId = 2,  ClientId = 5,  RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId = 9, DvdItemId = 21, ClientId = 2,  RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00)} );
-			rentals.Add(new Rental { RentalId =10, DvdItemId = 10, ClientId = 4,  RentalDate = new DateTime(2015,09,4,14,00,00), ExpectedReturnDate = new DateTime(2015,09,5,11,00,00), ReturnDate = new DateTime(2015,09,5,11,00,00)} );
+			rentals.Add(new Rental { rentalId = 1, dvdItemId = 53, clientId = 1, rentalDate = new DateTime(2015, 09, 16, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 26, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 2, dvdItemId = 23, clientId = 3, rentalDate = new DateTime(2015, 09, 15, 10, 00, 00), expectedReturnDate = new DateTime(2015, 09, 25, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 3, dvdItemId = 6, clientId = 42, rentalDate = new DateTime(2015, 09, 4, 13, 00, 00), expectedReturnDate = new DateTime(2015, 09, 24, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 4, dvdItemId = 83, clientId = 4, rentalDate = new DateTime(2015, 09, 4, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 5, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 5, dvdItemId = 9, clientId = 24, rentalDate = new DateTime(2015, 09, 4, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 5, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 6, dvdItemId = 72, clientId = 4, rentalDate = new DateTime(2015, 09, 4, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 5, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 7, dvdItemId = 34, clientId = 25, rentalDate = new DateTime(2015, 09, 4, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 5, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 8, dvdItemId = 2, clientId = 5, rentalDate = new DateTime(2015, 09, 4, 14, 00, 00), expectedReturnDate = new DateTime(2015, 09, 5, 11, 00, 00), actualReturnDate = null });
+			rentals.Add(new Rental { rentalId = 9, dvdItemId = 21, clientId = 2,  rentalDate = new DateTime(2015,09,4,14,00,00), expectedReturnDate = new DateTime(2015,09,5,11,00,00), actualReturnDate = null} );
+			rentals.Add(new Rental { rentalId =10, dvdItemId = 10, clientId = 4,  rentalDate = new DateTime(2015,09,4,14,00,00), expectedReturnDate = new DateTime(2015,09,5,11,00,00), actualReturnDate = new DateTime(2015,09,5,11,00,00)} );
 			return rentals;
 		}
 
 		private static List<DvdItem> CreateDvdList()
 		{
 			var dvdItem = new List<DvdItem>();
-			dvdItem.Add(new DvdItem { DvdItemId = 1, MovieId = 1, Serial = 45636, Price = 100 });
-			dvdItem.Add(new DvdItem { DvdItemId = 2, MovieId = 2, Serial = 64356});
-																
-			dvdItem.Add(new DvdItem { DvdItemId = 3, MovieId = 3, Serial = 34572, Price = 1 });
-			dvdItem.Add(new DvdItem { DvdItemId = 4, MovieId = 3, Serial = 83676, Price = 99999999 });
-			dvdItem.Add(new DvdItem { DvdItemId = 5, MovieId = 4, Serial = 52653, Price = 14551 });
-			dvdItem.Add(new DvdItem { DvdItemId = 6, MovieId = 4, Serial = 74724, Price = 550 });
-			dvdItem.Add(new DvdItem { DvdItemId = 7, MovieId = 5, Serial = 13592, Price = 2121 });
-			dvdItem.Add(new DvdItem { DvdItemId = 8, MovieId = 5, Serial = 74842, Price = 500 });
-			dvdItem.Add(new DvdItem { DvdItemId = 9, MovieId = 6, Serial = 58925, Price = 0 });
-			dvdItem.Add(new DvdItem { DvdItemId =10, MovieId = 6, Serial = 72376, Price = 500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 1, movieId = 1, serial = "45636", price = 100 });
+			dvdItem.Add(new DvdItem { dvdItemId = 2, movieId = 2, serial = "64356"});
+																  
+			dvdItem.Add(new DvdItem { dvdItemId = 3, movieId = 3, serial = "34572", price = 1 });
+			dvdItem.Add(new DvdItem { dvdItemId = 4, movieId = 3, serial = "83676", price = 99999999 });
+			dvdItem.Add(new DvdItem { dvdItemId = 5, movieId = 4, serial = "52653", price = 14551 });
+			dvdItem.Add(new DvdItem { dvdItemId = 6, movieId = 4, serial = "74724", price = 550 });
+			dvdItem.Add(new DvdItem { dvdItemId = 7, movieId = 5, serial = "13592", price = 2121 });
+			dvdItem.Add(new DvdItem { dvdItemId = 8, movieId = 5, serial = "74842", price = 500 });
+			dvdItem.Add(new DvdItem { dvdItemId = 9, movieId = 6, serial = "58925", price = 0 });
+			dvdItem.Add(new DvdItem { dvdItemId =10, movieId = 6, serial = "72376", price = 500 });
 
 			return dvdItem;
 		}
@@ -761,7 +765,7 @@ namespace GalacticDvdRentals.Logic.Tests
 			var movies = new List<Movie>();
 			for (var cnt = 0; cnt < numberOfMovies; cnt++)
 			{
-				movies.Add(new Movie { MovieId = cnt });
+				movies.Add(new Movie { movieId = cnt, title = "abc", description = null, image = null, stars = null,  ageRestriction = null,  director = null});
 			}
 			return movies;
 		}
@@ -769,8 +773,10 @@ namespace GalacticDvdRentals.Logic.Tests
 		private static List<Movie> CreateSearchableMovieList(params string[] names)
 		{
 			var movies = new List<Movie>();
-			foreach (string title in names) {
-				movies.Add(new Movie { Title = title });
+			int i = 0;
+			foreach (string name in names) {
+				i++;
+				movies.Add(new Movie { movieId = i, title = name, description = null, image = null, stars = null, ageRestriction = null, director = null });
 			}
 			return movies;
 		}
@@ -780,7 +786,7 @@ namespace GalacticDvdRentals.Logic.Tests
 			var dvdItem = new List<DvdItem>();
 			for (var cnt = 0; cnt < numberOfDvdItem; cnt++)
 			{
-				dvdItem.Add(new DvdItem { DvdItemId = cnt });
+				dvdItem.Add(new DvdItem { dvdItemId = cnt, movieId = 1, media = null, serial = "1", price = 1500});
 			}
 			return dvdItem;
 		}
